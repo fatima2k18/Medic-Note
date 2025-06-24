@@ -1,12 +1,15 @@
 package com.example.MedicNote_Application.controller;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.MedicNote_Application.model.Doctor;
+import com.example.MedicNote_Application.model.Patient;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -16,6 +19,34 @@ public class PrescriptionController {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "Doctor is required")
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor;
+
+    @NotNull(message = "Patient is required")
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
+
+    @NotBlank(message = "Diagnosis is required")
+    @Column(nullable = false)
+    private String diagnosis;
+
+    @NotBlank(message = "Medications are required")
+    @Column(length = 1000, nullable = false)
+    private String medications;
+
+    @Column(length = 1000)
+    private String notes;
+
+    @Column(name = "issued_date")
+    private LocalDate issuedDate;
+
+    @PrePersist
+    public void onCreate() {
+        this.issuedDate = LocalDate.now();
+    }
 
 
 }

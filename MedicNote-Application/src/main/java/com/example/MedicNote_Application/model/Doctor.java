@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,54 +16,29 @@ import lombok.NoArgsConstructor;
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
+    @NotBlank(message = "Phone number is required")
     @Column(name = "phoneNo")
     private String phoneNo;
-    @Column(name="password", unique = true)
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters")
+    @Column(name = "password", unique = true)
     private String password;
-    @Column(name="mailId", unique = true)
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
+    @Column(name = "mailId", unique = true)
     private String mailId;
-  @Column(name="name")
-   private  String name;
 
+    @NotBlank(message = "Name is required")
+    @Column(name = "name")
+    private String name;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getPhoneNo() {
-        return phoneNo;
-    }
-
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMailId() {
-        return mailId;
-    }
-
-    public void setMailId(String mailId) {
-        this.mailId = mailId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @NotBlank(message = "Specialization is required")
+    @Column(name = "specialization")
+    private String specialization;  // 👈 Add this field
 }
+
+
+
+

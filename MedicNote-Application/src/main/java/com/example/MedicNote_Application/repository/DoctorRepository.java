@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
+public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Optional<Doctor> findByMailId(String mailId); // use field name from your model
 
 }
