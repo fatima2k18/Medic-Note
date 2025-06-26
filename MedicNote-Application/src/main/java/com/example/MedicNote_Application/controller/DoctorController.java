@@ -41,6 +41,4 @@ public class DoctorController {
         String response = doctorService.loginUser(request.getMailId(), request.getPassword());
         return ResponseEntity.ok(response);
     }
-
-
 }

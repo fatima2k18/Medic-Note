@@ -1,5 +1,6 @@
 package com.example.MedicNote_Application.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,9 @@ public class Patient {
     private String gender;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Prescription> prescriptions;
+
+
 
 }

@@ -3,10 +3,11 @@ package com.example.MedicNote_Application.service;
 import com.example.MedicNote_Application.model.Patient;
 import com.example.MedicNote_Application.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class PatientService {
     @Autowired
     private PatientRepository patientRepository;

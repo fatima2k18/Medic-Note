@@ -1,5 +1,6 @@
 package com.example.MedicNote_Application.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +9,9 @@ import jakarta.validation.constraints.NotBlank;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,6 +41,10 @@ public class Doctor {
     @NotBlank(message = "Specialization is required")
     @Column(name = "specialization")
     private String specialization;  // 👈 Add this field
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Prescription> prescriptions;
+
 }
 
 

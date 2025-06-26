@@ -15,7 +15,7 @@ public class PatientController {
         @Autowired
         private PatientService patientService;
 
-        @PostMapping("/create")
+        @PostMapping("/register")
         public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
             return ResponseEntity.ok(patientService.createPatient(patient));
         }
