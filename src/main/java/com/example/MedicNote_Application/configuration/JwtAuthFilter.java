@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,6 +32,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                 if (jwtUtil.validateToken(token, userDetails)) {
+                    // ✅ Extract role from JWT
+                    String role = jwtUtil.extractRole(token);  // Add this method in JwtUtil if not present
+
+                    // ✅ Create GrantedAuthority with ROLE_ prefix
+                    SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
@@ -39,6 +45,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
             }
         }
+        //System.out.println("User: " + username + ", Authorities: " + userDetails.getAuthorities())
         filterChain.doFilter(request, response);
     }
 }

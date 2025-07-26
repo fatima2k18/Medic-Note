@@ -1,4 +1,5 @@
 package com.example.MedicNote_Application.service;
+import com.example.MedicNote_Application.exception.ResourceNotFoundException;
 import com.example.MedicNote_Application.model.Doctor;
 import com.example.MedicNote_Application.model.Patient;
 import com.example.MedicNote_Application.model.Prescription;
@@ -6,7 +7,13 @@ import com.example.MedicNote_Application.repository.DoctorRepository;
 import com.example.MedicNote_Application.repository.PatientRepository;
 import com.example.MedicNote_Application.repository.PrescriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +42,11 @@ public class PrescriptionService {
     }
 
     public Optional<Prescription> getPrescriptionById(Long id) {
-        return prescriptionRepository.findById(Math.toIntExact(id));
+        return prescriptionRepository.findById(id);
     }
 
     public Prescription updatePrescription(Long id, Prescription updatedPrescription) {
-        Prescription existing = prescriptionRepository.findById(Math.toIntExact(id))
+        Prescription existing = prescriptionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prescription not found"));
 
         existing.setDiagnosis(updatedPrescription.getDiagnosis());
@@ -61,8 +68,11 @@ public class PrescriptionService {
 
         return prescriptionRepository.save(existing);
     }
+    public List<Prescription> getPrescriptionsByPatientId(Long patientId) {
+        return prescriptionRepository.findByPatientId(patientId);
+    }
     public Prescription patchPrescription(Long id, Prescription partialPrescription) {
-        Prescription existing = prescriptionRepository.findById(Math.toIntExact(id))
+        Prescription existing = prescriptionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prescription not found"));
 
         if (partialPrescription.getDiagnosis() != null)
@@ -91,8 +101,14 @@ public class PrescriptionService {
 
         return prescriptionRepository.save(existing);
     }
+
+
     public void deletePrescription(Long id) {
 
-        prescriptionRepository.deleteById(Math.toIntExact(id));
+        prescriptionRepository.deleteById(id);
+    }
+
+    public List<Prescription> getPrescriptionsByDoctorId(Long doctorId) {
+        return prescriptionRepository.findByDoctorId(doctorId);
     }
 }

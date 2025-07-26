@@ -24,10 +24,6 @@ public class Doctor {
     @NotBlank(message = "Phone number is required")
     @Column(name = "phoneNo")
     private String phoneNo;
-    @NotBlank(message = "Password is required")
-    @Size(min = 6, message = "Password must be at least 6 characters")
-    @Column(name = "password", unique = true)
-    private String password;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
@@ -44,6 +40,17 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Prescription> prescriptions;
+    @Column(nullable = false)
+    private boolean isActive = true;
+    // ✅ Add this only if you're NOT using Lombok's @Data
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
 
 }
 

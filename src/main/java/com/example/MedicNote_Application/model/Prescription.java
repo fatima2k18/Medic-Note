@@ -1,6 +1,7 @@
 package com.example.MedicNote_Application.model;
 
 import com.example.MedicNote_Application.model.Patient;
+import com.example.MedicNote_Application.service.DoctorService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 @Entity
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name="Prescription")
 public class Prescription {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,5 +51,18 @@ public class Prescription {
     public void onCreate() {
         this.issuedDate = LocalDate.now();
     }
+    @Column(nullable = false)
+    private boolean isActive = true;
+
+    // Getter
+    public boolean isActive() {
+        return isActive;
+    }
+
+    // Setter
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
 
 }

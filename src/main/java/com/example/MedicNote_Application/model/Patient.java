@@ -43,7 +43,15 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Prescription> prescriptions;
-
+    @Column(nullable = false)
+    private boolean isActive = true;
+    public boolean getIsActive() {
+        return isActive;
+    }
+    // ✅ Correct setter
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 
 
 }

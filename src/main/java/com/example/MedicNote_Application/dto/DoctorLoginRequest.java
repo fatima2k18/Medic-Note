@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class DoctorLoginRequest {
     private String mailId;
-    private String password;
+    //private String password;
 }
